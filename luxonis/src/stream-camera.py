@@ -39,7 +39,7 @@ def compute_image():
 
     # Define a source - color camera
     camRgb = pipeline.createColorCamera()
-    camRgb.setPreviewSize(1920, 1080)
+    camRgb.setPreviewSize(300, 300)
     camRgb.setBoardSocket(dai.CameraBoardSocket.RGB)
     camRgb.setResolution(dai.ColorCameraProperties.SensorResolution.THE_1080_P)
     camRgb.setInterleaved(False)
