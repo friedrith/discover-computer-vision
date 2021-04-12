@@ -10,6 +10,10 @@ import os
 import numpy as np
 import depthai as dai
 
+from detectors.person_detector_tiny_yolo import compute_image as compute_image_tiny_yolo
+from detectors.camera import compute_image as compute_image_basic
+
+
 # initialize the output frame and a lock used to ensure thread-safe
 # exchanges of the output frames (useful when multiple browsers/tabs
 # are viewing the stream)
@@ -29,45 +33,13 @@ def index():
     return render_template("index.html")
 
 
-def compute_image():
+def set_image(frame):
     # grab global references to the video stream, output frame, and
     # lock variables
     global globalFrame, lock
 
-    # Start defining a pipeline
-    pipeline = dai.Pipeline()
-
-    # Define a source - color camera
-    camRgb = pipeline.createColorCamera()
-    camRgb.setPreviewSize(300, 300)
-    camRgb.setBoardSocket(dai.CameraBoardSocket.RGB)
-    camRgb.setResolution(dai.ColorCameraProperties.SensorResolution.THE_1080_P)
-    camRgb.setInterleaved(False)
-    camRgb.setColorOrder(dai.ColorCameraProperties.ColorOrder.RGB)
-
-    # Create output
-    xoutRgb = pipeline.createXLinkOut()
-    xoutRgb.setStreamName("rgb")
-    camRgb.preview.link(xoutRgb.input)
-
-    # Pipeline is defined, now we can connect to the device
-    with dai.Device(pipeline) as device:
-        # Start pipeline
-        device.startPipeline()
-
-        # Output queue will be used to get the rgb frames from the output defined above
-        qRgb = device.getOutputQueue(name="rgb", maxSize=4, blocking=False)
-
-        while True:
-            inRgb = qRgb.get()  # blocking call, will wait until a new data has arrived
-
-            # Retrieve 'bgr' (opencv format) frame
-            # cv2.imshow("bgr", inRgb.getCvFrame())
-            with lock:
-                globalFrame = inRgb.getCvFrame()
-
-            # if cv2.waitKey(1) == ord('q'):
-            # 		break
+    with lock:
+        globalFrame = frame
 
 
 def generate():
@@ -126,7 +98,7 @@ if __name__ == '__main__':
                     help='minimum probability to filter weak detections')
     args = vars(ap.parse_args())
     # start a thread that will perform motion detection
-    t = threading.Thread(target=compute_image)
+    t = threading.Thread(target=compute_image_basic, args=([set_image]))
     t.daemon = True
     t.start()
     # start the flask app
