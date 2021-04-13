@@ -12,6 +12,7 @@ import depthai as dai
 
 from detectors.person_detector_tiny_yolo import compute_image as compute_image_tiny_yolo
 from detectors.camera import compute_image as compute_image_basic
+from detectors.person_detector_yolo import compute_image as compute_image_yolo
 
 
 # initialize the output frame and a lock used to ensure thread-safe
@@ -53,6 +54,8 @@ def generate():
             # the iteration of the loop
             if globalFrame is None:
                 continue
+
+            # frame = cv2.resize(globalFrame, (1920, 1080), interpolation = cv2.INTER_AREA)
 
             # encode the frame in JPEG format
             (flag, encodedImage) = cv2.imencode(".jpg", globalFrame)
@@ -98,7 +101,7 @@ if __name__ == '__main__':
                     help='minimum probability to filter weak detections')
     args = vars(ap.parse_args())
     # start a thread that will perform motion detection
-    t = threading.Thread(target=compute_image_basic, args=([set_image]))
+    t = threading.Thread(target=compute_image_tiny_yolo, args=([set_image]))
     t.daemon = True
     t.start()
     # start the flask app

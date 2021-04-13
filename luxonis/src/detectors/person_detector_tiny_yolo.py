@@ -29,7 +29,7 @@ labelMap = [
 
 
 def compute_image(callback):
-    syncNN = True
+    syncNN = False
 
     # Get argument first
     nnPath = str((Path(__file__).parent /
@@ -45,6 +45,8 @@ def compute_image(callback):
     camRgb = pipeline.createColorCamera()
     camRgb.setPreviewSize(416, 416)
     camRgb.setInterleaved(False)
+    camRgb.setResolution(dai.ColorCameraProperties.SensorResolution.THE_1080_P)
+    camRgb.setPreviewKeepAspectRatio(False)
     camRgb.setFps(40)
 
     # Network specific settings
@@ -70,7 +72,7 @@ def compute_image(callback):
     if syncNN:
         detectionNetwork.passthrough.link(xoutRgb.input)
     else:
-        camRgb.preview.link(xoutRgb.input)
+        camRgb.video.link(xoutRgb.input)
 
     nnOut = pipeline.createXLinkOut()
     nnOut.setStreamName("detections")

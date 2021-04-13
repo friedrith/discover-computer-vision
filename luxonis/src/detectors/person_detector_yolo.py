@@ -18,7 +18,7 @@ labelMap = open(labelsPath).read().strip().split("\n")
 
 
 def compute_image(callback):
-    syncNN = True
+    syncNN = False
 
     nnPath = getPath('yolo-v3.blob')
     if not Path(nnPath).exists():
@@ -32,7 +32,9 @@ def compute_image(callback):
     camRgb = pipeline.createColorCamera()
     camRgb.setPreviewSize(416, 416)
     camRgb.setInterleaved(False)
-    camRgb.setFps(1)
+    camRgb.setResolution(dai.ColorCameraProperties.SensorResolution.THE_1080_P)
+    camRgb.setPreviewKeepAspectRatio(False)
+    camRgb.setFps(20)
 
     # Network specific settings
     detectionNetwork = pipeline.createYoloDetectionNetwork()
@@ -57,7 +59,7 @@ def compute_image(callback):
     if syncNN:
         detectionNetwork.passthrough.link(xoutRgb.input)
     else:
-        camRgb.preview.link(xoutRgb.input)
+        camRgb.video.link(xoutRgb.input)
 
     nnOut = pipeline.createXLinkOut()
     nnOut.setStreamName("detections")
