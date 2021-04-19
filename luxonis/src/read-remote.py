@@ -13,6 +13,7 @@ import depthai as dai
 from detectors.person_detector_tiny_yolo import compute_image as compute_image_tiny_yolo
 from detectors.camera import compute_image as compute_image_basic
 from detectors.person_detector_yolo import compute_image as compute_image_yolo
+from detectors.human_pose_estimation import compute_image as compute_image_pose
 
 
 # initialize the output frame and a lock used to ensure thread-safe
@@ -101,7 +102,7 @@ if __name__ == '__main__':
                     help='minimum probability to filter weak detections')
     args = vars(ap.parse_args())
     # start a thread that will perform motion detection
-    t = threading.Thread(target=compute_image_tiny_yolo, args=([set_image]))
+    t = threading.Thread(target=compute_image_pose, args=([set_image]))
     t.daemon = True
     t.start()
     # start the flask app
