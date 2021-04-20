@@ -134,7 +134,7 @@ def compute_image(callback):
     with dai.Device(create_pipeline()) as device:
         print("Starting pipeline...")
         device.startPipeline()
-        cam_out = device.getOutputQueue("cam_out", 1, True)
+        cam_out = device.getOutputQueue("cam_out", 1, False)
         controlQueue = device.getInputQueue('control')
         pose_nn = device.getOutputQueue("pose_nn", 1, False)
         t = threading.Thread(target=pose_thread, args=(pose_nn, ))
