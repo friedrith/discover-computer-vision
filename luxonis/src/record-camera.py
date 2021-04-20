@@ -9,7 +9,7 @@ cam.setBoardSocket(dai.CameraBoardSocket.RGB)
 cam.setResolution(dai.ColorCameraProperties.SensorResolution.THE_4_K)
 
 # Create an encoder, consuming the frames and encoding them using H.265 encoding
-videoEncoder = pipeline.createVideoEncoder()
+videoEncoder = pipeline.()
 videoEncoder.setDefaultProfilePreset(
     3840, 2160, 30, dai.VideoEncoderProperties.Profile.H265_MAIN)
 cam.video.link(videoEncoder.input)

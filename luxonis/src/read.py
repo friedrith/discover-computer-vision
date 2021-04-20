@@ -7,6 +7,7 @@ from detectors.camera import compute_image as compute_image_basic
 from detectors.depth_camera import compute_image as compute_image_depth
 from detectors.person_depth import compute_image as compute_person_depth
 from detectors.spatial_location_calculator import compute_image as compute_location
+from detectors.human_pose_estimation import compute_image as compute_image_pose
 
 
 def display_image(frame):
@@ -15,4 +16,4 @@ def display_image(frame):
         sys.exit()
 
 
-compute_location(display_image)
+compute_image_pose(display_image)
