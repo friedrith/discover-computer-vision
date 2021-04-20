@@ -9,7 +9,7 @@ def compute_image(callback):
 
     # Define a source - color camera
     camRgb = pipeline.createColorCamera()
-    camRgb.setPreviewSize(300, 300)
+    camRgb.setVideoSize(1920, 1080)
     camRgb.setBoardSocket(dai.CameraBoardSocket.RGB)
     camRgb.setResolution(dai.ColorCameraProperties.SensorResolution.THE_1080_P)
     camRgb.setInterleaved(False)
@@ -18,7 +18,7 @@ def compute_image(callback):
     # Create output
     xoutRgb = pipeline.createXLinkOut()
     xoutRgb.setStreamName("rgb")
-    camRgb.preview.link(xoutRgb.input)
+    camRgb.video.link(xoutRgb.input)
 
     # Pipeline is defined, now we can connect to the device
     with dai.Device(pipeline) as device:
