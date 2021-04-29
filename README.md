@@ -21,7 +21,7 @@ ffmpeg -i Experiment\ 1\ v3\ -\ HD\ 720p.mov -vcodec libx265 -crf 18 experiment_
 - [List of intel models](https://github.com/openvinotoolkit/open_model_zoo/tree/2019_R3/models/intel)
 - https://github.com/openvinotoolkit/open_model_zoo/tree/master/models/public
 - [Examples with luxonis](https://github.com/luxonis/depthai-experiments)
-
+- https://docs.luxonis.com/en/latest/pages/training/
 
 ## Build models
 

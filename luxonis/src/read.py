@@ -2,6 +2,7 @@ import cv2
 import sys
 
 from detectors.person_detector_tiny_yolo import compute_image as compute_image_tiny_yolo
+from detectors.person_detector_mobilenet import compute_image as compute_image_mobilenet
 from detectors.person_detector_yolo import compute_image as compute_image_yolo
 from detectors.camera import compute_image as compute_image_basic
 from detectors.depth_camera import compute_image as compute_image_depth
@@ -16,4 +17,4 @@ def display_image(frame):
         sys.exit()
 
 
-compute_image_pose(display_image)
+compute_image_mobilenet(display_image)

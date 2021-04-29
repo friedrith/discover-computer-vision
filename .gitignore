@@ -5,3 +5,4 @@ models
 .env.*
 open_model_zoo_downloads
 *.pyc
+__pycache__
